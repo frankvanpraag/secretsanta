@@ -18,7 +18,7 @@ http.createServer(app).listen(app.get('port'), app.get('ip'), function(){
 });
 
 app.get('/fvp', function (req, res) {
-  res.send('Hello Frank!');
+  res.send('Hello Frank.');
 });
 
 app.get('/draw', function (req, res) {
