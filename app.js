@@ -99,6 +99,22 @@ app.get('/retrieve', function (req, res) {
 });
 
 
+app.get('/health', function (req, res) {
+    res.writeHead(200);
+    res.end();
+}
+
+app.get('/info/gen', function (req, res) {
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Cache-Control', 'no-cache, no-store');
+    res.end(JSON.stringify(sysInfo[url.slice(6)]()));
+}
+
+app.get('/info/poll', function (req, res) {
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Cache-Control', 'no-cache, no-store');
+    res.end(JSON.stringify(sysInfo[url.slice(6)]()));
+}
 
 
 app.get('/', function (req, res) {
