@@ -68,11 +68,9 @@ app.get('/persist', function (req, res) {
     //then start using it
     storage.setItem(name, value)
     .then(function() {
-
       return storage.getItem(name)
     })
     .then(function(fvalue) {
-
       console.log(fvalue);
     })
   });
@@ -96,6 +94,23 @@ app.get('/retrieve', function (req, res) {
   console.log('Retrieved value=',value);
   console.log('Retrieved.');
   res.send({ value:value });
+});
+
+app.get('/retrieveJSON', function (req, res) {
+  console.log('Retrieving...');
+  var SurveyID = req.query.SurveyID;
+  var PanelID = req.query.PanelID;
+  var RecipientID = req.query.RecipientID;
+  var SPR = SurveyID+PanelID+RecipientID;
+  var name  = req.query.name;
+  console.log('name=',name);
+  //you must first call storage.initSync
+  storage.initSync({ dir:'NameValuePairs/'+SPR });
+  //then start using it
+  var value = storage.getItemSync(name);
+  console.log('Retrieved JSON: ',value);
+  console.log('Retrieved.');
+  res.send(value);
 });
 
 
