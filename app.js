@@ -1,8 +1,14 @@
-var http = require('http');
-var request = require('request');
-var express = require('express');
-var app = express();
-var util = require('util');
+const fs           = require('fs');
+const path         = require('path');
+const storage      = require('node-persist');
+const contentTypes = require('./utils/content-types');
+const sysInfo      = require('./utils/sys-info');
+var   env          = process.env;
+var   http         = require('http');
+var   request      = require('request');
+var   express      = require('express');
+var   app          = express();
+var   util         = require('util');
 
 app.set('port', process.env.OPENSHIFT_NODEJS_PORT || 8080);
 app.set('ip', process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1');
@@ -15,8 +21,8 @@ app.get('/fvp', function (req, res) {
   res.send('Hello Frank!');
 });
 
-app.get('/create', function (req, res) {
-  console.log('Secret Santa List Creator starting...');
+app.get('/draw', function (req, res) {
+  console.log('Secret Santa List Draw starting...');
   //var ids = req.param('ids').replace(/^\s+|\s+$/g,'');
   var ids = JSON.parse(req.param.ids);
 
@@ -39,9 +45,61 @@ app.get('/create', function (req, res) {
       //json: {"embeddedData": {"SSMyReceiverWish": myReceiverWish}}
   //});
   //console.log(reqresp);
-  console.log('Secret Santa List Creator done');
+  console.log('Secret Santa List Draw done');
   res.send(myDraw.result);
 });
+
+
+app.get('/persist', function (req, res) {
+  // SurveyID: SV_bODYygLhu74X2sJ
+  // RecipientID: MLRP_8kylKmkNBlrDvPn
+  // PanelID: ML_9XiG06XbK9HiZDv
+  console.log('Persisting...');
+  var SurveyID = req.query.SurveyID;
+  var PanelID = req.query.PanelID;
+  var RecipientID = req.query.RecipientID;
+  var SPR = SurveyID+PanelID+RecipientID;
+  var name  = req.query.name;
+  var value = req.query.value;                  // Value (of name-value-pair)
+  console.log(SPR, ': ', name,' = ',value);
+  //var yep = decodeURIComponent(escape(req.param('yep').replace(/(\r\n|\n|\r|\'|\")/gm," ").replace(/^\s+|\s+$/g,'')));
+
+  storage.init( { dir:'NameValuePairs/'+SPR } ).then(function() {
+    //then start using it
+    storage.setItem(name, value)
+    .then(function() {
+
+      return storage.getItem(name)
+    })
+    .then(function(fvalue) {
+
+      console.log(fvalue);
+    })
+  });
+
+  console.log('Persisted.');
+  res.send('Done');
+});
+
+app.get('/retrieve', function (req, res) {
+  console.log('Retrieving...');
+  var SurveyID = req.query.SurveyID;
+  var PanelID = req.query.PanelID;
+  var RecipientID = req.query.RecipientID;
+  var SPR = SurveyID+PanelID+RecipientID;
+  var name  = req.query.name;
+  console.log('name=',name);
+  //you must first call storage.initSync
+  storage.initSync({ dir:'NameValuePairs/'+SPR });
+  //then start using it
+  var value = storage.getItemSync(name);
+  console.log('Retrieved value=',value);
+  console.log('Retrieved.');
+  res.send({ value:value });
+});
+
+
+
 
 app.get('/', function (req, res) {
   res.send('Hello World!');
