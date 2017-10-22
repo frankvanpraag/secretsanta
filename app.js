@@ -50,7 +50,7 @@ app.get('/draw', function (req, res) {
 });
 
 
-app.get('/persist', function (req, res) {
+app.get('/set', function (req, res) {
   // SurveyID: SV_bODYygLhu74X2sJ
   // RecipientID: MLRP_8kylKmkNBlrDvPn
   // PanelID: ML_9XiG06XbK9HiZDv
@@ -79,7 +79,7 @@ app.get('/persist', function (req, res) {
   res.send('Done');
 });
 
-app.get('/retrieve', function (req, res) {
+app.get('/get', function (req, res) {
   console.log('Retrieving...');
   var SurveyID = req.query.SurveyID;
   var PanelID = req.query.PanelID;
@@ -96,7 +96,7 @@ app.get('/retrieve', function (req, res) {
   res.send({ value:value });
 });
 
-app.get('/retrieveJSON', function (req, res) {
+app.get('/getJSON', function (req, res) {
   console.log('Retrieving...');
   var SurveyID = req.query.SurveyID;
   var PanelID = req.query.PanelID;
