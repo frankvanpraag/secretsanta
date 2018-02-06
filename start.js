@@ -20,17 +20,17 @@ app.get('/fvp', function (req, res) {
 
 app.get('/autoinc', function (req, res) {
   console.log('Autoinc...');
-//   //you must first call storage.initSync    
-//   storage.init( { dir:'NameValuePairs/autoinc' } ).then(function() {
-//     //then start using it
-//     storage.setItem('autoinc', 0)
-//     .then(function() {
-//       return storage.getItem('autoinc')
-//     })
-//     .then(function(fvalue) {
-//       console.log(fvalue);
-//     })
-//   });
+  //you must first call storage.initSync    
+  storage.init( { dir:'NameValuePairs/autoinc' } ).then(function() {
+    //then start using it
+    storage.setItem('autoinc', 0)
+    .then(function() {
+      return storage.getItem('autoinc')
+    })
+    .then(function(fvalue) {
+      console.log(fvalue);
+    })
+  });
 
 //   //then start using it
   var value = 0;
