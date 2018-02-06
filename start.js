@@ -28,7 +28,9 @@ app.get('/autoinc', function (req, res) {
       return storage.getItem('autoinc')
     })
     .then(function(fvalue) {
+      storage.setItem('autoinc', fvalue+1)
       console.log(fvalue);
+      res.send({ value:fvalue });
     })
   });
 
