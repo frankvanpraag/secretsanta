@@ -26,20 +26,20 @@ app.get('/autoinc', function (req, res) {
   var value = storage.getItemSync(name); // Check if it's already set
   if (value)
       value = value + 1
-    else
+    else {
       value = 0;
-  
-  storage.init( { dir:'NameValuePairs/'+name } ).then(function() {
-    //then start using it
-    storage.setItem(name, value)
-    .then(function() {
-      return storage.getItem(name)
-    })
-    .then(function(fvalue) {
-      console.log('Oops: '+fvalue);
-    })
-  });
-  res.send({ value:value });
+      storage.init( { dir:'NameValuePairs/'+name } ).then(function() {
+        //then start using it
+        storage.setItem(name, value)
+        .then(function() {
+          return storage.getItem(name)
+        })
+        .then(function(fvalue) {
+          console.log('Oops: '+fvalue);
+        })
+      });
+    }
+    res.send({ counter:value });
 });
 
 
