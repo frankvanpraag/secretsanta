@@ -24,21 +24,15 @@ app.get('/autoinc', function (req, res) {
   //you must first call storage.initSync
   storage.initSync({ dir:'NameValuePairs/'+name });
   var value = storage.getItemSync(name); // Check if it's already set
+  console.log('value='+value);
   if (value)
       value = value + 1
+      storage.setItem(name, value);
     else {
       value = 0;
-      storage.init( { dir:'NameValuePairs/'+name } ).then(function() {
-        //then start using it
-        storage.setItem(name, value)
-        .then(function() {
-          return storage.getItem(name)
-        })
-        .then(function(fvalue) {
-          console.log('Oops: '+fvalue);
-        })
-      });
+      storage.setItem(name, value);
     }
+    value = storage.getItemSync(name);
     res.send({ counter:value });
 });
 
