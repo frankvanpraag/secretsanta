@@ -18,25 +18,6 @@ app.get('/fvp', function (req, res) {
   res.send('Hello Frank.');
 });
 
-app.get('/autoinc', function (req, res) {
-  console.log('Autoinc...');
-  var name  = 'autoinc';
-  //you must first call storage.initSync
-  storage.initSync({ dir:'NameValuePairs/'+name });
-  var value = storage.getItemSync(name); // Check if it's already set
-  console.log('value='+value);
-  if (value >= 0) {
-      value = value + 1
-      storage.setItem(name, value);
-  } else {
-      value = 0;
-      storage.setItem(name, value);
-  }
-  value = storage.getItemSync(name);
-  res.send({ counter:value });
-});
-
-
 app.get('/get', function (req, res) {
   console.log('Retrieving...');
   var SurveyID = req.query.SurveyID;
