@@ -21,6 +21,8 @@ app.get('/fvp', function (req, res) {
 app.get('/autoinc', function (req, res) {
   console.log('Autoinc...');
   var name  = 'autoinc';
+  //you must first call storage.initSync
+  storage.initSync({ dir:'NameValuePairs/'+SPR });
   var value = storage.getItemSync(name); // Check if it's already set
   if (value)
       value = value + 1
