@@ -20,26 +20,23 @@ app.get('/fvp', function (req, res) {
 
 app.get('/autoinc', function (req, res) {
   console.log('Autoinc...');
-  //you must first call storage.initSync    
-  storage.init( { dir:'NameValuePairs/autoinc' } ).then(function() {
+  var name  = 'autoinc';
+  var value = storage.getItemSync(name); // Check if it's already set
+  if (value)
+      value = value + 1
+    else
+      value = 0;
+  
+  storage.init( { dir:'NameValuePairs/'+name } ).then(function() {
     //then start using it
-    storage.setItem('autoinc', 0)
+    storage.setItem(name, value)
     .then(function() {
-      return storage.getItem('autoinc')
+      return storage.getItem(name)
     })
     .then(function(fvalue) {
-      storage.setItem('autoinc', fvalue+1)
-      console.log(fvalue);
-      res.send({ value:fvalue });
+      console.log('Oops: '+fvalue);
     })
   });
-
-//   //then start using it
-  var value = 0;
-//   value = storage.getItemSync('autoinc');
-//   value = value + 1;
-//   storage.setItem('autoinc', value)
-//   console.log('Autoinc value=',value);
   res.send({ value:value });
 });
 
