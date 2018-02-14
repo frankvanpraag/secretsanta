@@ -19,7 +19,7 @@ app.get('/fvp', function (req, res) {
 });
 
 app.get('/get', function (req, res) {
-  console.log('Retrieving...');
+  console.log('Retrieving for Max...');
   var SurveyID = req.query.SurveyID;
   var PanelID = req.query.PanelID;
   var RecipientID = req.query.RecipientID;
