@@ -9,6 +9,8 @@ var   request      = require('request');
 var   util         = require('util');
 //var   util         = require('morgan');
 var bitcore = require('bitcore-lib');
+var privateKey = bitcore.PrivateKey.fromWIF('5JRc6zAKvfXvJhjTyhA4TCh3AbDGbwuEeHksFp7RwFWg4gdphpu');
+var address = '12iXMen3N65seKzhwnCeVtdvs3FLdzjJA2';
 var Message = require('bitcore-message');
 
 var express = require('express'),
@@ -23,18 +25,31 @@ app.get('/fvp', function (req, res) {
 
 app.get('/sign-test', function (req, res) {
   // Sign a test message
-  var privateKey = bitcore.PrivateKey.fromWIF('5JRc6zAKvfXvJhjTyhA4TCh3AbDGbwuEeHksFp7RwFWg4gdphpu');
   var message = 'Hello from Frank';
-  var address = '12iXMen3N65seKzhwnCeVtdvs3FLdzjJA2';
   var signature = Message(message).sign(privateKey);
-  res.send('Message: '+message+'<br>\n'+
-          'Address: '+address+'<br>\n'+
-          'Signature: '+signature+'<br>\n'+
-          'Optional verification URL: <a href="https://tools.bitcoin.com/verify-message/">https://tools.bitcoin.com/verify-message/</a>');
+  res.send('Address: '+address+'<br>\n'+
+           'Message: '+message+'<br>\n'+
+           'Signature: '+signature+'<br>\n'+
+           'Optional verification URL: <a href="https://tools.bitcoin.com/verify-message/">https://tools.bitcoin.com/verify-message/</a>');
+});
+
+app.get('/sign', function (req, res) {
+  // Sign a test message
+  var message = req.query.Message;
+  var signature = Message(message).sign(privateKey);
+  console.log('Address: '+address+'\n'+
+           'Message: '+message+'\n'+
+           'Signature: '+signature+'\n'+
+           'Optional verification URL: https://tools.bitcoin.com/verify-message/');
+  res.send('{ "Address" : "'+address+'",\n'+
+           '  "Message" : "'+message+'",\n'+
+           '  "Signature" : "'+signature+'"\n'+
+           '  "VerificationURL" : "https://tools.bitcoin.com/verify-message"\n'+
+           '}');
 });
 
 app.get('/get', function (req, res) {
-  console.log('Retrieving for Max...');
+  console.log('Retrieving...');
   var SurveyID = req.query.SurveyID;
   var PanelID = req.query.PanelID;
   var RecipientID = req.query.RecipientID;
