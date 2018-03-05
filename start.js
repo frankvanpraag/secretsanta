@@ -23,9 +23,9 @@ app.get('/fvp', function (req, res) {
 
 app.get('/sign-test', function (req, res) {
   // Sign a test message
-  var privateKey = bitcore.PrivateKey.fromWIF('cPBn5A4ikZvBTQ8D7NnvHZYCAxzDZ5Z2TSGW2LkyPiLxqYaJPBW4');
+  var privateKey = bitcore.PrivateKey.fromWIF('5JRc6zAKvfXvJhjTyhA4TCh3AbDGbwuEeHksFp7RwFWg4gdphpu');
   var message = 'Hello from Frank';
-  var address = 'n1ZCYg9YXtB5XCZazLxSmPDa8iwJRZHhGx';
+  var address = '12iXMen3N65seKzhwnCeVtdvs3FLdzjJA2';
   var signature = Message(message).sign(privateKey);
   res.send('Message: '+message+'<br>\n'+
           'Address: '+address+'<br>\n'+
