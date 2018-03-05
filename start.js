@@ -41,11 +41,11 @@ app.get('/sign', function (req, res) {
            'Message: '+message+'\n'+
            'Signature: '+signature+'\n'+
            'Optional verification URL: https://tools.bitcoin.com/verify-message/');
-  res.send('{ Address : "'+address+'",\n'+
-           '  Message : "'+message+'",\n'+
-           '  Signature : "'+signature+'"\n'+
-           '  VerificationURL : "https://tools.bitcoin.com/verify-message"\n'+
-           '}');
+  res.send({ Address: address, 
+             Message: message,
+             Signature: signature,
+             VerificationURL: 'https://tools.bitcoin.com/verify-message'
+           });
 });
 
 app.get('/get', function (req, res) {
