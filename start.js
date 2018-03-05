@@ -9,7 +9,6 @@ var   request      = require('request');
 var   util         = require('util');
 //var   util         = require('morgan');
 var bitcore = require('bitcore-lib');
-var privateKey = bitcore.PrivateKey.fromWIF('cPBn5A4ikZvBTQ8D7NnvHZYCAxzDZ5Z2TSGW2LkyPiLxqYaJPBW4');
 var Message = require('bitcore-message');
 
 var express = require('express'),
@@ -24,12 +23,13 @@ app.get('/fvp', function (req, res) {
 
 app.get('/sign-test', function (req, res) {
   // Sign a test message
+  var privateKey = bitcore.PrivateKey.fromWIF('cPBn5A4ikZvBTQ8D7NnvHZYCAxzDZ5Z2TSGW2LkyPiLxqYaJPBW4');
   var message = 'Hello from Frank';
   var address = 'n1ZCYg9YXtB5XCZazLxSmPDa8iwJRZHhGx';
   var signature = Message(message).sign(privateKey);
   res.send('Message: '+message+'<br>\n'+
-          'address: '+address+'<br>\n'+
-          'signature: '+signature+'<br>\n'+
+          'Address: '+address+'<br>\n'+
+          'Signature: '+signature+'<br>\n'+
           'Optional verification URL: <a href="https://tools.bitcoin.com/verify-message/">https://tools.bitcoin.com/verify-message/</a>');
 });
 
